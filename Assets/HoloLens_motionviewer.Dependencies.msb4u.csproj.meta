@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: fd30b6d8c5af69f4da1e4f23d2596e0a
+ScriptedImporter:
+  fileIDToRecycleName:
+    11400000: HoloLens_motionviewer.Dependencies.msb4u
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 0e4dca1acba66fd478b3854f09a32ec7, type: 3}
+  buildEngine: 0
+  profiles: []
