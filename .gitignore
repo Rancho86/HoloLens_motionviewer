@@ -18,6 +18,10 @@ ExportedObj/
 *.pidb
 *.booproj
 *.svd
+20220517/
+20220517-2th/
+20220518-1th/
+*.obj
 
 # Unity3D generated meta files
 *.pidb.meta
