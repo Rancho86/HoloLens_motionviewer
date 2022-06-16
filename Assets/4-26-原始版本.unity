@@ -241,6 +241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tm: {fileID: 1172444089}
+  needel_name: Needle
   MainCamera: {fileID: 534669902}
   prefab: {fileID: 0}
   prefab1: {fileID: 0}

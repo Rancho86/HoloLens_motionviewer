@@ -49,7 +49,7 @@ namespace HoloToolkit.Unity
         private Material indicatorChildMaterial;
         //*
         private Material enlongMaterial;
-       // private Material enlongChildMaterial;
+        // private Material enlongChildMaterial;
 
         // Check if the SurgicalTool direction indicator is visible.
         private bool isDirectionIndicatorVisible;
@@ -78,12 +78,12 @@ namespace HoloToolkit.Unity
             // Instantiate the needle的延长线
             NeedleEnlong = InstantiateNeedleEnlong(NeedleEnlong);
 
-           // needle的延长线
+            // needle的延长线
             if (NeedleEnlong == null)
             {
-              Debug.Log("NeedleEnlong failed to instantiate.");
+                Debug.Log("NeedleEnlong failed to instantiate.");
             }
-            Debug.Log("Awake-end`                                                                                                                                                                                                                             调用完毕~");
+            Debug.Log("Awake-end 调用完毕~");
         }
 
         public void OnDestroy()
@@ -134,29 +134,32 @@ namespace HoloToolkit.Unity
         {
 
             //这里采用find替换一下试试----注意:前提条件是在socketluo将needle已经初始化了,这里才能找到enlong
-            if (GameObject.Find("enlong")!=null)
+            if (GameObject.Find("enlong") != null)
             {
                 GameObject enlongobj = GameObject.Find("enlong");
                 Debug.Log("needdle的延长线已经找到");
-                enlongDefaultRotation = enlongobj.transform.rotation;
+                // enlongDefaultRotation = enlongobj.transform.rotation;
                 enlongRenderer = enlongobj.GetComponent<Renderer>();
+                enlongRenderer.enabled = true;
+                //设置延长线的透明度
+                enlongRenderer.material.color = new Color(1.0f,1.0f,0.5f);
                 //enlongChildRenderer = enlongobj.transform.GetChild(0).GetComponent<Renderer>();
 
                 // Start with the indicator disabled.
-                enlongRenderer.enabled = false;
+                //   enlongRenderer.enabled = false;
                 //enlongChildRenderer.enabled = false;
                 // Remove any colliders and rigidbodies so the indicators do not interfere with Unity's physics system.
-                foreach (Collider indicatorCollider in enlongobj.GetComponents<Collider>())
-                {
-                    Destroy(indicatorCollider);
-                }
+                //    foreach (Collider indicatorCollider in enlongobj.GetComponents<Collider>())
+                //    {
+                //       Destroy(indicatorCollider);
+                //   }
 
-                foreach (Rigidbody rigidBody in enlongobj.GetComponents<Rigidbody>())
-                {
-                    Destroy(rigidBody);
-                }
+                //   foreach (Rigidbody rigidBody in enlongobj.GetComponents<Rigidbody>())
+                //   {
+                //        Destroy(rigidBody);
+                // }
 
-                enlongMaterial = enlongRenderer.material;
+                // enlongMaterial = enlongRenderer.material;
                 //enlongChildMaterial = enlongChildRenderer.material;
 
 
@@ -177,10 +180,10 @@ namespace HoloToolkit.Unity
             }
 
             //if (GameObject.Find("Needle") == null)
-           //     return;
-          
+            //     return;
+
             //获取场景中的needle
-            if (SurgicalTool==null)
+            if (SurgicalTool == null)
             {
                 if ((SurgicalTool = GameObject.Find("MD-8700345")) == null)
                 {
@@ -191,28 +194,28 @@ namespace HoloToolkit.Unity
                 Debug.Log("已找到MD-8700345");
             }
 
-            Debug.Log("调用Update() at line 195");
+            //Debug.Log("调用Update() at line 195");
             //获取场景中的needle的延长线
             if (NeedleEnlong == null)
-           {
-                if ((NeedleEnlong = GameObject.Find("enlong")) ==null)
+            {
+                if ((NeedleEnlong = GameObject.Find("enlong")) == null)
                 {
-                   Debug.Log("DirectionIndicator.CS Line 199 return");
+                    Debug.Log("DirectionIndicator.CS Line 199 return");
                     return;
-               }
+                }
                 Debug.Log("已找到enlong");
-           }
+            }
 
             // guider与needle的距离
             // Direction from the SurgicalTool to this script's parent gameObject.
             Vector3 SelfToSurgicalToolDirection = SelfObject.transform.position - SurgicalTool.transform.position;
             SelfToSurgicalToolDirection.Normalize();
-            
+
             //在这里控制arrow是否显示
             // The SurgicalTool indicator should only be visible if the target is not visible.
             isDirectionIndicatorVisible = !IsTargetVisible();
             directionIndicatorRenderer.enabled = isDirectionIndicatorVisible;
-            directionIndicatorChildRenderer.enabled = isDirectionIndicatorVisible;
+           
 
             if (isDirectionIndicatorVisible)
             {
@@ -229,9 +232,12 @@ namespace HoloToolkit.Unity
             //*
             //在这里控制needle的延长线是否显示
             // The SurgicalTool indicator should only be visible if the target is not visible.
-             isEnlongVisible = IsTargetVisible();
-             enlongRenderer.enabled = isEnlongVisible;
-             enlongChildRenderer.enabled = isEnlongVisible;
+            isEnlongVisible = IsTargetVisible();
+            Debug.Log("arrow的 isDirectionIndicatorVisible " + isDirectionIndicatorVisible);
+            Debug.Log("enlong的 IsEnlongVisible is"+isEnlongVisible);
+            NeedleEnlong.SetActive(isEnlongVisible);
+            //enlongRenderer.enabled = isEnlongVisible;
+            //enlongChildRenderer.enabled = isEnlongVisible;
         }//update-end
 
 

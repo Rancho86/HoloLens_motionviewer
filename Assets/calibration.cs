@@ -34,8 +34,10 @@ public class calibration : MonoBehaviour
     void Start()
     {
 #if !UNITY_EDITOR
+        //实例化一个监听对象
         listener = new StreamSocketListener();
         port = "12345";
+        //监听在接收到tcp连接后所触发的事件
         listener.ConnectionReceived += Listener_ConnectionReceived;
         //listener.Control.KeepAlive = false;
 
@@ -50,6 +52,7 @@ public class calibration : MonoBehaviour
         Debug.Log("Listener started");
         try
         {
+            //指定监听端口
             await listener.BindServiceNameAsync(port);
         }
         catch (Exception e)
@@ -57,13 +60,14 @@ public class calibration : MonoBehaviour
             tm.text = "Error: " + e.Message;
             Debug.Log("Error: " + e.Message);
         }
-        tm.text = "Listening~";
-        Debug.Log("Listening");
+        tm.text = "正在监听ing~";
+        Debug.Log("******Listening at start");
     }
 
     private async void Listener_ConnectionReceived(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
     {
-          DataReader reader = new DataReader(args.Socket.InputStream);
+        Debug.Log("******进入到了Listener_ConnectionReceived()");
+        DataReader reader = new DataReader(args.Socket.InputStream);
         DataWriter writer = new DataWriter(args.Socket.OutputStream);
         try
         {
@@ -186,8 +190,6 @@ public class calibration : MonoBehaviour
             prefab4.transform.rotation = qua1;
             prefab5.transform.position = new Vector3(ff[0], ff[1], ff[2]);
             prefab5.transform.rotation = qua1;
-
-
 
             //      prefab.transform.position = new Vector3(ff[0], ff[1], ff[2]);
             //     prefab1.transform.position = new Vector3(ff[3], ff[4], ff[5]);

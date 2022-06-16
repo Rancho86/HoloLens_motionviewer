@@ -50,11 +50,8 @@ public class SocketLuo : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-       
-            
         getHoloLensLocaltoWorld();
 #if !UNITY_EDITOR
-
         //启动监听
         listener = new StreamSocketListener();
         //监听的端口
@@ -62,7 +59,6 @@ public class SocketLuo : MonoBehaviour
         //新连接接入时的事件
         listener.ConnectionReceived += Listener_ConnectionReceived;
         //listener.Control.KeepAlive = false;
-
         Listener_Start();
 #endif
     }
@@ -197,8 +193,9 @@ public class SocketLuo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-      //  tm.text = temp;
+        if (temp.Equals("connected!")) {//如果连接成功了,就不显示"连接成功了"
+            tm.text = "";
+        }
         //这个坐标只让获取一次,在strat()中
         getHoloLensLocaltoWorld();//初始化fanhui矩阵
         if (bDataOK == true)
@@ -245,8 +242,8 @@ public class SocketLuo : MonoBehaviour
             if (c1 == false)
             {
                 //模型实例化
-                prefab3=Instantiate(prefab3);//HoloLens初始坐标轴
-                prefab6 =Instantiate(prefab6);//HoloLens初始坐标轴
+                //prefab3=Instantiate(prefab3);//HoloLens初始坐标轴
+                //prefab6 =Instantiate(prefab6);//HoloLens初始坐标轴
                 prefab7= Instantiate(prefab7);//bone
             }
           //  tm.text = "模型显示" + prefab7.transform.position; 
@@ -272,15 +269,15 @@ public class SocketLuo : MonoBehaviour
             //旋转
             Quaternion newQ = Quaternion.LookRotation(new Vector3(vz.x, vz.y, vz.z), new Vector3(vy.x, vy.y, vy.z));
             //设置prefab3[HoloLens的初始点坐标系]的位置
-            prefab3.transform.position = new Vector3(pos.x, pos.y, pos.z);
-            prefab3.transform.rotation = newQ;//设置prefab3[HoloLens的初始点坐标系]的旋转角度
+          //  prefab3.transform.position = new Vector3(pos.x, pos.y, pos.z);
+           // prefab3.transform.rotation = newQ;//设置prefab3[HoloLens的初始点坐标系]的旋转角度
 
             prefab7.transform.position = new Vector3(pos.x, pos.y, pos.z);//设置prefab7[骨头]的位置
             prefab7.transform.rotation = newQ;//设置prefab[骨头]的旋转
             Debug.Log("Model display");
             
             //prefab6 = Instantiate(prefab6);
-            prefab6.transform.position = new Vector3(0, 0, 0);//设置prefab6[Hololens的初始点坐标系]的位置为坐标原点
+           // prefab6.transform.position = new Vector3(0, 0, 0);//设置prefab6[Hololens的初始点坐标系]的位置为坐标原点
             c1 = true;
 
 
@@ -293,6 +290,7 @@ public class SocketLuo : MonoBehaviour
                 prefab4 = Instantiate(prefab4);
                 //初始化结束之后更改他的name属性---在脚本calulateRotate脚本中采用find函数查找
                 prefab4.name = needel_name;
+                c2 = true;
              }
 
             Vector4 vy = matrixGroup[0].GetColumn(1);

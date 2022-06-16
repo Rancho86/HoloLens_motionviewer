@@ -17,9 +17,10 @@ public class CaculateRotate : MonoBehaviour
     public GameObject needle = null;
     //获取到模型引导的引用实例对象
     public GameObject guider = null;
-
- 
-   
+    //相机
+    public GameObject mainCamera = null;
+    //角度UI远离物体系数
+    private float msg_dis_factor= 0.02f;
 
     //显示夹角信息
     public TextMesh msg_angle_result = null;
@@ -73,7 +74,12 @@ public class CaculateRotate : MonoBehaviour
             msg_angle_result.text = "未找到模型引导";
         
         //每一帧都调用计算夹角函数-然后将计算结果显示到视野中
-        msg_angle_result.text = "手术器械与规划的夹角:"+this.calulateAngle(needle, guider) + "度";
+        msg_angle_result.text = "手术器械与规划的夹角:"+this.calulateAngle(needle, guider).ToString("f2")+ "度";
+        msg_angle_result.transform.forward=msg_angle_result.transform.position-mainCamera.transform.position ;
+        Vector3 msg_rotation ;
+        msg_rotation = msg_angle_result.transform.position - mainCamera.transform.position;
+        msg_rotation.Normalize();
+        msg_angle_result.transform.position = guider.transform.position - msg_rotation * msg_dis_factor;
     }
 
     /**
@@ -91,17 +97,17 @@ public class CaculateRotate : MonoBehaviour
 
         if (GameObject.Find("Guider") == null)
         {
-            Debug.Log("Guider模型引导暂未初始化,夹角计算失败");
+           // Debug.Log("Guider模型引导暂未初始化,夹角计算失败");
             return -2f;
         }
-        Debug.Log("Guider初始化成功");
+      //  Debug.Log("Guider初始化成功");
 
         if (GameObject.Find("Needle") == null)
         {
-            Debug.Log("Needle手术针暂未初始化,夹角计算失败");
+         //   Debug.Log("Needle手术针暂未初始化,夹角计算失败");
             return -1f;
         }
-        Debug.Log("Needle手术针初始化成功");
+       // Debug.Log("Needle手术针初始化成功");
 
         //如果手术针和模型引导有一个没有初始化成功,就不执行
         //计算的夹角结果----这里采用每个物体坐标的X计算夹角
@@ -109,4 +115,5 @@ public class CaculateRotate : MonoBehaviour
             //Debug.Log(obj1.name + "与" + obj2.name + "的夹角是:" + angle_result);
             return System.Math.Abs(angle_result-90);
     }
+
 }
